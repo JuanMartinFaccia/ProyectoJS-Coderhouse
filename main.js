@@ -4,8 +4,6 @@
 
 const carrito = []
 
-
-
     const ordenarMenorMayor = () => {
        productos.sort((a,b) => a.precio - b.precio)
        mostrarListaOrdenada()
@@ -24,9 +22,6 @@ const carrito = []
         comprarProductos(listaDeProductos)
    };                                                           
         
-   
-
-
 const comprarProductos = (listaDeProductos) => {    
     let productoNombre = ''                         
     let productoCantidad = 0
@@ -52,7 +47,6 @@ const comprarProductos = (listaDeProductos) => {
     
 };  
 
-
 const agregarAlCarrito = (producto,  productoId, productoCantidad) => {
 
      const productoRepetido = carrito.find(producto => producto.id === productoId)
@@ -61,8 +55,7 @@ const agregarAlCarrito = (producto,  productoId, productoCantidad) => {
         carrito.push(producto)                    
      } else {
         productoRepetido.cantidad += productoCantidad
-     }
-       
+     }     
 };
 
 const eliminarProductoCarrito= (nombreProductoAEliminar) => {
@@ -100,15 +93,79 @@ const confirmarCompra = () => {
 
 //5º ahora defino finalizar compra
 const finalizarCompra = (listaDeProductos) => {
+    
      const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0 )    //acc almacena la catidad total//item representa a cada objeto del array carrito
      const precioTotal = carrito.reduce((acc, item) => acc + (item.cantidad * item.precio), 0 )
+
+     const totalConDescuento = aplicarDescuento(precioTotal);
+     const totalConEnvio = calcularEnvio(totalConDescuento);
+
      alert ('Detalle de su compra: '
      +'\n\n'+listaDeProductos.join('\n')
-     +'\n\nTotal de productos: '+cantidadTotal 
-     +'\n\nEl total de su compra es: '+precioTotal
+     +'\n\nTotal de productos: '+cantidadTotal       
+     +'\n\nEl total de su compra es: '+totalConEnvio    //aqui puede ser
      +'\n\nGracias por su compra!' 
+     
     )
+    return totalConEnvio;
 };
+
+const aplicarDescuento = (precioTotal) => {
+    let totalConDescuento = 0;
+
+    if (precioTotal >= 500000) {
+        totalConDescuento = precioTotal * 0.90;
+        return totalConDescuento;
+    } else {
+        return precioTotal;
+    }
+}
+
+const calcularEnvio = (precioTotal) => {
+    let tieneEnvioADomicilio = false;
+
+    let direccionDomicilio = '';
+    let numeroDeDomicilio = 0;
+    let nombreCompleto = '';
+     
+    tieneEnvioADomicilio = confirm("¿Querés envío a domicilio?");
+    
+    if (tieneEnvioADomicilio && precioTotal >= 1000000) {
+
+        alert("Tenés envio gratis. El total de tu compra es $" + precioTotal);
+        nombreCompleto = prompt('Ingrese su nombre completo').toUpperCase();
+        direccionDomicilio = prompt('Ingrese la dirección de su domicilio donde quiere recivir su compra').toUpperCase();
+        numeroDeDomicilio = parseInt(prompt('Ingrese el número de su domicilio')); 
+
+        while (Number.isNaN(numeroDeDomicilio)) {
+            if (numeroDeDomicilio !== 0) {
+                alert('Deber agregar un número.')
+            } 
+            numeroDeDomicilio = parseInt(prompt ('Ingrese el número de su domicilio'));
+        }
+        alert ('¡Gracias por su compra! '+nombreCompleto+' su pedido será enviado al ' +direccionDomicilio+' '+ numeroDeDomicilio);
+
+    } else if (tieneEnvioADomicilio && precioTotal < 1000000 && precioTotal !== 0) {
+       precioTotal += 30000;
+       alert("El envío cuesta $30000. El total de tu compra es $" + precioTotal);
+       nombreCompleto= prompt('Ingrese su nombre completo').toUpperCase();
+       direccionDomicilio = prompt('Ingrese la dirección de su domicilio donde quiere recivir su compra').toUpperCase();
+       numeroDeDomicilio = parseInt(prompt('Ingrese el número de su domicilio')); 
+
+       while (Number.isNaN(numeroDeDomicilio)) {
+        if (numeroDeDomicilio !== 0) {
+            alert('Deber agregar un número.')
+        } 
+        numeroDeDomicilio = parseInt(prompt ('Ingrese el número de su domicilio'));
+       }
+       alert (+nombreCompleto+ ' su pedido será enviado al ' +direccionDomicilio+' '+ numeroDeDomicilio);
+
+    } else {
+       alert("El total de tu compra es $" + precioTotal);
+    }
+
+    return precioTotal;
+}
 
 //6º defino comprar
 
@@ -120,7 +177,6 @@ const   comprar = () => {
         ordenarMayorMenor
     }
 };
-
 
 
 comprar ()
