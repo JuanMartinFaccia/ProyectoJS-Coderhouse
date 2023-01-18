@@ -1,158 +1,126 @@
 //tema- Simulador de conpra de paneles solares, termotanques solares...
-const comprarProductos = () => {
-    let producto = '';
-    let cantidad = 0;
-    let precio = 0;
-    let totalCompra = 0;
-    let seguirComprando = false;
+//array vacio que va a represetar  mi carrito de compras
+
+
+const carrito = []
+
+
+
+    const ordenarMenorMayor = () => {
+       productos.sort((a,b) => a.precio - b.precio)
+       mostrarListaOrdenada()
+   };
+
+    const ordenarMayorMenor = () => {
+        productos.sort((a, b) => b.precio - a.precio)
+        mostrarListaOrdenada()
+   };
+
+   const mostrarListaOrdenada  = () => {   
+        const listaDeProductos= productos.map(producto =>{
+            return '- '+producto.nombre+' $'+producto.precio  
+        })                                                  
+        alert('Lista de precios:'+'\n\n'+listaDeProductos.join('\n')) 
+        comprarProductos(listaDeProductos)
+   };                                                           
+        
+   
+
+
+const comprarProductos = (listaDeProductos) => {    
+    let productoNombre = ''                         
+    let productoCantidad = 0
+    let otroProducto = false     
 
     do {
-        producto = prompt ("¿Querés comprar KIT Paneles Solares, KIT Termotanques Solares o Baterías de litio ?", "Ej:KIT Paneles Solares");
-        cantidad = parseInt(prompt ("¿Cuántos querés comprar?"));
+        productoNombre = prompt('¿Qué producto desea comprar?'+'\n\n'+listaDeProductos.join('\n'))
+        productoCantidad =parseInt(prompt('¿Cuántos queres comprar?'))
 
-        let cantidadValidada = validarCantidad(cantidad);
-
-    switch (producto) {
-        case "KIT Paneles Solares":
-            precio = 150000;
-            break;
-        case "KIT Termotanques Solares":
-            precio = 120000;
-            break;
-        case "Baterías de litio":
-            precio = 250000;
-            break;
-        default:
-            alert("Alguno de los datos ingresados no es correcto");
-            precio= 0;
-            cantidad= 0;
-    }
-
-    totalCompra += precio * cantidadValidada;
-    seguirComprando = confirm("¿Querés agregar otro producto?");
-
-
-
-    } while (seguirComprando)
-
-    const totalConDescuento = aplicarDescuento(totalCompra);
-    const totalConEnvio = calcularEnvio(totalConDescuento);
-
-    return totalConEnvio;
-}
-
-const validarCantidad = (cantidad) => {
-    while (Number.isNaN(cantidad) || cantidad === 0) {
-        if (cantidad !== 0) {
-            alert('Deber agregar un número.')
-        } else {
-            alert('Debe agregar un número distinto de cero.')
+        const  producto =  productos.find(producto => producto.nombre.toLowerCase() === productoNombre.toLowerCase())  
+        console.log(producto) 
+                                                
+        if(producto) {
+            agregarAlCarrito(producto, producto.id, productoCantidad)  
+        } else{
+            alert('El producto no se encuentra en el catálogo!')
         }
-        cantidad = parseInt(prompt ("¿Cuántos querés comprar?"));
-    }
+        
+        otroProducto = confirm('Desea agregar otro producto?')
+    } while (otroProducto);
 
-    return cantidad;
-};
-
-const aplicarDescuento = (totalCompra) => {
-    let totalConDescuento = 0;
-
-    if (totalCompra >= 500000) {
-        totalConDescuento = totalCompra * 0.90;
-        return totalConDescuento;
-    } else {
-        return totalCompra;
-    }
-}
-
-const calcularEnvio = (totalCompra) => {
-    let tieneEnvioADomicilio = false;
-
-    let direccionDomicilio = '';
-    let numeroDeDomicilio = 0;
-    let nombre = '';
-     
-    tieneEnvioADomicilio = confirm("¿Querés envío a domicilio?");
+    confirmarCompra() 
     
-    if (tieneEnvioADomicilio && totalCompra >= 1000000) {
-        alert("Tenés envio gratis. El total de tu compra es $" + totalCompra);
-        nombre = prompt('Ingrese su nombre completo').toUpperCase();
-        direccionDomicilio = prompt('Ingrese la dirección de su domicilio donde quiere recivir su compra').toUpperCase();
-        numeroDeDomicilio = parseInt(prompt('Ingrese el número de su domicilio')); 
+};  
 
-        while (Number.isNaN(numeroDeDomicilio)) {
-            if (numeroDeDomicilio !== 0) {
-                alert('Deber agregar un número.')
-            } 
-            numeroDeDomicilio = parseInt(prompt ('Ingrese el número de su domicilio'));
-        }
-        alert ('¡Gracias por su compra! '+nombre+' su pedido será enviado al ' +direccionDomicilio+' '+ numeroDeDomicilio);
 
-    } else if (tieneEnvioADomicilio && totalCompra < 1000000 && totalCompra !== 0) {
-       totalCompra += 30000;
-       alert("El envío cuesta $30000. El total de tu compra es $" + totalCompra);
-       nombre = prompt('Ingrese su nombre completo').toUpperCase();
-       direccionDomicilio = prompt('Ingrese la dirección de su domicilio donde quiere recivir su compra').toUpperCase();
-       numeroDeDomicilio = parseInt(prompt('Ingrese el número de su domicilio')); 
+const agregarAlCarrito = (producto,  productoId, productoCantidad) => {
 
-       while (Number.isNaN(numeroDeDomicilio)) {
-        if (numeroDeDomicilio !== 0) {
-            alert('Deber agregar un número.')
-        } 
-        numeroDeDomicilio = parseInt(prompt ('Ingrese el número de su domicilio'));
-       }
-       alert ('¡Gracias por su compra! '+nombre+' su pedido será enviado al ' +direccionDomicilio+' '+ numeroDeDomicilio);
-
-    } else {
-       alert("El total de tu compra es $" + totalCompra);
-    }
-
-    return totalCompra;
-}
-
-function calcularCantidadDeCuotas() {
-    let cuotas = 0;
-    let tieneCuotas = false;
-
-    tieneCuotas = confirm("¿Querés pagar en cuotas?");
-
-    if(tieneCuotas) {
-        cuotas = parseInt(prompt("¿En cuántas cuotas querés pagar?"));
-        if (cuotas === 0){
-            cuotas = 1;
-        }else if (Number.isNaN(cuotas)){
-            calcularCantidadDeCuotas();
-        }
-    }else {
-        cuotas = 1;
-    }
-
-    return cuotas;
+     const productoRepetido = carrito.find(producto => producto.id === productoId)
+     if (!productoRepetido) {
+        producto.cantidad += productoCantidad    
+        carrito.push(producto)                    
+     } else {
+        productoRepetido.cantidad += productoCantidad
+     }
+       
 };
 
-function calcularIntereses (cuotas) {
-    let tasa = 12.3;
-    let sinIntereses = 0;
-    let tasaTotal = 0;
-    let interesesTotales = 0;
+const eliminarProductoCarrito= (nombreProductoAEliminar) => {
+     carrito.forEach( (producto, index  ) => {
+        if(producto.nombre.toLowerCase() === nombreProductoAEliminar.toLowerCase()) {
+            if( producto.cantidad > 1) {
+                producto.cantidad --
+            } else{
+                carrito.splice(index, 1)  
+            }
+        }
+     }) 
 
-    if (cuotas === 1){
-        return sinIntereses;
-    }else{
-        tasaTotal = tasa + cuotas * 0.2;
-        interesesTotales = tasaTotal * cuotas;
-        return interesesTotales;
+     confirmarCompra()
+};   
+
+const confirmarCompra = () => {
+
+    const listaProductos =  carrito.map(producto => {
+     return '- '+producto.nombre+' | Cantidad:  '+producto.cantidad
+    } )
+    
+    const isCheckout = confirm('Checkout:  ' 
+         +'\n\n'+listaProductos.join('\n')
+         +'\n\nPara continuar precione "Aceptar" sino "Cancelar" para eliminar un producto del carrito '
+    )
+    if(isCheckout) {
+        finalizarCompra(listaProductos)  
+    } else {
+        const nombreProductoAEliminar = prompt('Ingrese el nombre del producto a eliminar')
+        eliminarProductoCarrito (nombreProductoAEliminar)  
     }
-}
 
-function calcularTotalAPagar (totalCompra, cuotas, intereses) {
-    totalCompra = (totalCompra + intereses)
-    let valorCuota = totalCompra / cuotas;
-    alert ("El total a pagar es $"+totalCompra+" en "+cuotas+" cuotas de $"+valorCuota.toFixed(2));
-}
+};
 
-const totalCompra = comprarProductos();
-const cuotas = calcularCantidadDeCuotas();
-const intereses = calcularIntereses(cuotas);
+//5º ahora defino finalizar compra
+const finalizarCompra = (listaDeProductos) => {
+     const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0 )    //acc almacena la catidad total//item representa a cada objeto del array carrito
+     const precioTotal = carrito.reduce((acc, item) => acc + (item.cantidad * item.precio), 0 )
+     alert ('Detalle de su compra: '
+     +'\n\n'+listaDeProductos.join('\n')
+     +'\n\nTotal de productos: '+cantidadTotal 
+     +'\n\nEl total de su compra es: '+precioTotal
+     +'\n\nGracias por su compra!' 
+    )
+};
 
-calcularTotalAPagar(totalCompra, cuotas, intereses);
+//6º defino comprar
+
+const   comprar = () => {
+    const productosBaratos = confirm('Querés ordenar la lista de productos del mas barato al más caro?')
+    if(productosBaratos) {
+        ordenarMenorMayor()
+    } else {
+        ordenarMayorMenor
+    }
+};
+
+
+
+comprar ()
