@@ -4,7 +4,7 @@ const productos = [
         nombre:"Kit Panel-Solar",
         tipo:"Paneles solares fotovoltaicos",
         precio: 150000,
-        desc: "6 paneles, 2 baterías de litio y 1 conversor",
+        desc: "6 Paneles, 2 Baterías de litio y 1 Conversor",
         cantidad : 1,
         imagen: '../public/images/panelSolar.jpg'
     },
@@ -14,7 +14,7 @@ const productos = [
         nombre:"Kit Termo-Solar",
         tipo:"Termotanques solares",
         precio:120000 ,
-        desc: "1 termotanque solar",
+        desc: "1 Termotanque solar",
         cantidad : 1,
         imagen: '../public/images/termotanque.png'
     },
