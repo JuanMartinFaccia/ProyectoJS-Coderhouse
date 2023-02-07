@@ -1,5 +1,5 @@
 //librerías:
-
+//btn-comprar
 const btn2 = document.querySelector('#btn2')
 btn2.addEventListener('click', () => {
     if(carrito == 0){
@@ -17,7 +17,7 @@ btn2.addEventListener('click', () => {
     }
 })
 
-//
+//bnt elminar
 
 const btnEliminar = document.getElementById('carrito-contenedor')
 
@@ -26,16 +26,16 @@ btnEliminar.addEventListener('click', ()=>{
     title: 'Estás seguro?',
     text: 'Va a elimanr un producto',
     icom:'warning',
-    showCancelButton: true, //x defecto:false
+    showCancelButton: true, 
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Eliminar',
     confirmCancelText: 'Cancelar',
-   }).then((result)=>{  //promesas con eventos en futuro, que se puede llegar a cumplir o no.
-    if(result.isConfirmed){ //si da true muesta el Swal sino da false y ignora el swal
+   }).then((result)=>{  
+    if(result.isConfirmed){ 
         Swal.fire(
             'Eliminado',
-            'El producto ha sido eliminado',  //por fecto van tittle,text y icon asi me ahorro escribirlas
+            'El producto ha sido eliminado',  
             'success',
         )
     }
