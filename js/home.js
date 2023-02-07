@@ -8,7 +8,7 @@ const pintarProductos = (productos) => {
       div.innerHTML += `<div class="card-image">
                           <img src=${producto.imagen}>
                           <span class="card-title">${producto.nombre}</span>
-                          <a class="btn-floating halfway-fab wabes-effect waves-light red"><i id=${producto.id} class="material-icons agregar">add_shopping_cart</i></a>
+                          <a class="btn-floating halfway-fab wabes-effect waves-light blue"><i id=${producto.id} class="material-icons agregar">add_shopping_cart</i></a>
                         </div>
                         <div class="card-content">
                             <p>${producto.desc}</p>

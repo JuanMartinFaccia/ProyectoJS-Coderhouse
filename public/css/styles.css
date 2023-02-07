@@ -176,6 +176,8 @@ select {
   outline: none;
 }
 
-.red{
-  color: blue;
+.btn-finalizar-compras{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
