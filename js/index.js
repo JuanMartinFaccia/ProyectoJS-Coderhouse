@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', cargarCarrito)
 
 const lista = document.getElementById('producto-contenedor') 
 
-fetch('/data.json')
+fetch('/json/stock.json')
    .then((resp) => resp.json())
    .then(data => console.log(data))
 
