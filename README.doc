@@ -1,1 +1,13 @@
-Hola 
+Hola soy JUAN MARTÍN FACCIA este es mi proyecto de Javascript para Coderhouse,
+
+basado en la temática del curso de Desarrolo Web : Energías Renovables.
+
+Aplicando los conocimientos adquiridos en el curso se diseñó
+
+un simulador de  compras, con carrito de compras incluidos, donde se pueden
+
+tanto comprar como borrar productos selecionados.
+
+se usaron librerias como: sweetalert.
+
+tambien se utilizo como método de almacenar datos en el stock.json 
