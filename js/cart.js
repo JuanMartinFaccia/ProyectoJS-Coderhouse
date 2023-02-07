@@ -49,8 +49,7 @@ productoContenedor.addEventListener('click', (e) => {
  
 };
 
-
-                               
+                             
                                
 const pintarProductoCarrito = (producto) => {
     
